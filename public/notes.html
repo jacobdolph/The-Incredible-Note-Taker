@@ -6,9 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Note Taker</title>
+  <script src="https://code.jquery.com/jquery.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.3/flatly/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 
@@ -24,14 +25,25 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-4 list-container">
-        <div class="card">
-          <ul class="list-group">
+        <div class="card bg-light">
+          <ul class="list-group" id="notelist">
           </ul>
         </div>
       </div>
-      <div class="col-8">
-        <input class="note-title" placeholder="Note Title" maxlength="28" type="text">
-        <textarea class="note-textarea" placeholder="Note Text"></textarea>
+      <div class="col-8 shadow p-3 mb-5 bg-white rounded">
+        <form>
+          <div class="form-group">
+            <label for="title">Note Title</label>
+            <input type="text" class="form-control note-title" placeholder="Note Title" maxlength="28">
+          </div>
+          <div class="form-group">
+            <label for="noteMessage">Note Message</label>
+            <textarea type="text" class="form-control note-textarea" placeholder="Note Message"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary submit">Submit</button>
+        </form>
+
       </div>
     </div>
   </div>
@@ -40,3 +52,76 @@
 </body>
 
 </html>
+
+<script type="text/javascript">
+
+
+  function removeData() {
+    $("#notelist").empty()
+  }
+  function runNoteQuery() {
+    $.ajax({ url: "/api/db", method: "GET" })
+      .then(function (noteData) {
+
+        console.log(noteData);
+        console.log("--------------------------------------");
+
+        for (var i = 0; i < noteData.length; i++) {
+          noteData[i].id = i;
+          var noteList = $("#notelist");
+          var listItem = $("<li class='list-group-item mt-4'>")
+          listItem.append(
+            $("<h3>").text("Note Title: " + noteData[i].title),
+            $("<hr>"),
+            $("<h4>").text(noteData[i].message),
+            $("<button>").attr({
+              "class": "delete btn btn-primary",
+              "type": "button"
+            }).text("Delete")
+          );
+          noteList.append(listItem)
+        }
+
+      });
+  }
+
+  function generateID() {
+    var i = 0;
+    return function () {
+      return i++;
+    }
+  };
+  let id = generateID();
+  $(".submit").on("click", function (event) {
+    event.preventDefault();
+    var newNote = {
+      // id: id(),
+      title: $(".note-title").val().trim(),
+      message: $(".note-textarea").val().trim()
+    };
+    console.log(newNote)
+    $.post("/api/db", newNote,
+      function (data) {
+        if (data) {
+          alert("Saving your new note!")
+        }
+        else {
+          alert("Unable to save the note!")
+        }
+        removeData();
+        runNoteQuery();
+        $(".note-title").val("");
+        $(".note-textarea").val("");
+      }
+    )
+  })
+
+  // $("#notelist").on("click", "button", function () {
+
+
+
+  //   $(this).parent().remove()
+  // });
+
+  runNoteQuery()
+</script>
