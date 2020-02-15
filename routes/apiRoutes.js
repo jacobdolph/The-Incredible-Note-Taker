@@ -1,7 +1,6 @@
 
 const fs = require("fs");
-const util = require("util");
-const path = require("path")
+const path = require("path");
 var data = require("../db/db.json");
 var database = path.join(__dirname, '..', 'db', 'db.json');
 
