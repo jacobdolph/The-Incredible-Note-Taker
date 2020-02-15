@@ -1,7 +1,6 @@
 {
   "name": "note-taker",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +12,16 @@
     "fs": "0.0.1-security",
     "mysql": "^2.16.0",
     "util": "^0.12.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacobdolph/The-Incredible-Note-Taker.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/jacobdolph/The-Incredible-Note-Taker/issues"
+  },
+  "homepage": "https://github.com/jacobdolph/The-Incredible-Note-Taker#readme",
+  "description": ""
 }
