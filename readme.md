@@ -36,3 +36,6 @@ Navigate to https://the-incredible-note-taker.herokuapp.com/,
 click on the get started button.
 Once you arrive to the Note taker page, you can add a title to the note title section, and a message to the note text area. when you add text to both areas the save button will reveal itself, and you may save that note. to view your note, note title on the left side of the screen. to delete the note click on the trash can to the right of the note title on the left of the screen.
 ​
+# Links to the Work
+https://github.com/jacobdolph/The-Incredible-Note-Taker
+https://the-incredible-note-taker.herokuapp.com/
